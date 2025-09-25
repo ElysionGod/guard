@@ -30,7 +30,7 @@ if (!hasAccess) {
     }
 
     const embed = new EmbedBuilder()
-      .setTitle("✅ Whitelisted Users")
+      .setTitle("<a:yes:1413485015970353172> Whitelisted Users")
       .setColor("Green")
       .setDescription(
         rows
