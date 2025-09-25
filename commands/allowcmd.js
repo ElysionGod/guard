@@ -45,8 +45,8 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setColor("Green")
-      .setTitle("✅ Command Access Granted")
-      .setDescription(`👤 User <@${user.id}> now has access to all protected commands.\n🆔 ID: \`${user.id}\``);
+      .setTitle("<a:yes:1413485015970353172> Command Access Granted")
+      .setDescription(`<:user:1420452265256288349> User <@${user.id}> now has access to all protected commands.\n <:emoji_10:1414019863373938820> ID: \`${user.id}\``);
 
     return message.reply({ embeds: [embed] });
   }
