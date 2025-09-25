@@ -45,8 +45,8 @@ module.exports = {
 
     const embed = new EmbedBuilder()
       .setColor("DarkRed")
-      .setTitle("🚫 Command Access Revoked")
-      .setDescription(`👤 User <@${user.id}> no longer has access to protected commands.\n🆔 ID: \`${user.id}\``);
+      .setTitle("<:deleteuser:1413928416754794546> Command Access Revoked")
+      .setDescription(`<:user:1420452265256288349> User <@${user.id}> no longer has access to protected commands.\n <:emoji_10:1414019863373938820> ID: \`${user.id}\``);
 
     return message.reply({ embeds: [embed] });
   }
