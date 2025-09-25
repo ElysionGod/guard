@@ -1,4 +1,4 @@
-const { EmbedBuilder, PermissionFlagsBits } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const db = require("../database/db");
 const config = require("../config.json");
 
@@ -6,11 +6,11 @@ module.exports = {
   name: "revoke",
   description: "Revoke permission from a user",
   async execute(message, args) {
-    const hasAccess = 
-  message.author.id === config.ownerID ||
-  db.prepare("SELECT 1 FROM command_access WHERE user_id = ?").get(message.author.id);
+    const hasAccess =
+      message.author.id === config.ownerID ||
+      db.prepare("SELECT 1 FROM command_access WHERE user_id = ?").get(message.author.id);
 
-if (!hasAccess) {
+    if (!hasAccess) {
       const embed = new EmbedBuilder()
         .setColor("Red")
         .setTitle("Permission Denied ❌")
@@ -39,16 +39,22 @@ if (!hasAccess) {
     // Remove user from whitelist database
     db.prepare("DELETE FROM whitelist WHERE user_id = ?").run(user.id);
 
-    // Remove permissions in the protected channel
     try {
       const channel = message.guild.channels.cache.get(config.protectedChannelID);
       if (channel) {
-        await channel.permissionOverwrites.edit(user.id, {
-          [PermissionFlagsBits.ViewChannel]: false,  // 🚫 cannot see the room
-          [PermissionFlagsBits.Connect]: false, // block joining
-          [PermissionFlagsBits.Speak]: false,   // block talking
-          [PermissionFlagsBits.Stream]: false,  // block camera/screen share
-        });
+        // ✅ Completely remove overwrite instead of editing
+        await channel.permissionOverwrites.delete(user.id).catch(() => null);
+
+        // ✅ Force disconnect if the user is inside
+        const member = channel.members.get(user.id);
+        if (member) {
+          try {
+            await member.voice.disconnect();
+            console.log(`⏱️ ${user.username} was disconnected after revoke.`);
+          } catch (err) {
+            console.error(`⚠️ Failed to disconnect ${user.username}:`, err);
+          }
+        }
       }
     } catch (err) {
       console.error("⚠️ Failed to remove channel permissions:", err);
@@ -56,10 +62,11 @@ if (!hasAccess) {
 
     const embed = new EmbedBuilder()
       .setColor("DarkRed")
-      .setTitle("🚫 Permission Revoked")
+      .setTitle("<:deleteuser:1413928416754794546> Permission Revoked")
       .setDescription(
-        `👤 User <@${user.id}> is no longer permitted to join your room.\n` +
-        `🆔 ID: \`${user.id}\``
+        `<:deleteuser:1413928416754794546> User <@${user.id}> is no longer permitted to join your room.\n` +
+        `<a:arroww:1416188226925887579> ID: \`${user.id}\`\n` +
+        `<a:alert:1413487887353385061> Permission overwrite removed completely.`
       );
 
     return message.reply({ embeds: [embed] });
