@@ -56,10 +56,10 @@ if (!hasAccess) {
 
     const embed = new EmbedBuilder()
       .setColor("Green")
-      .setTitle("✅ Verification Process")
+      .setTitle("<a:yes:1413485015970353172> Verification Process")
       .setDescription(
-        `👤 User <@${user.id}> has been successfully **verified**.\n` +
-        `🆔 ID: \`${user.id}\``
+        `<:user:1420452265256288349> User <@${user.id}> has been successfully **verified**.\n` +
+        `<:emoji_10:1414019863373938820> ID: \`${user.id}\``
       );
 
     return message.reply({ embeds: [embed] });
