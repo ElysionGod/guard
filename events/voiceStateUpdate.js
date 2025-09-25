@@ -45,12 +45,12 @@ async function checkChannel(client) {
             try {
               const embedDM = new EmbedBuilder()
                 .setColor("Red")
-                .setTitle("❌ Access Denied")
+                .setTitle("<a:no:1413485258195861545> Access Denied")
                 .setDescription(
                   `You are **not whitelisted** to stay in **${channel.name}**.\n` +
                     (config.redirectChannelID
-                      ? "➡️ You have been moved to another room.\n"
-                      : "⏹️ You have been disconnected.\n") +
+                      ? "<a:arrow:1414024729790255206> You have been moved to another room.\n"
+                      : "<a:arrow:1414024729790255206> You have been disconnected.\n") +
                     `Please contact the owner <@${config.ownerID}> if you need access.`
                 )
                 .setTimestamp();
@@ -65,9 +65,9 @@ async function checkChannel(client) {
               if (channel.isVoiceBased() && channel.send) {
                 const embedLog = new EmbedBuilder()
                   .setColor("Orange")
-                  .setTitle("⚠️ Unauthorized Join Attempt")
+                  .setTitle("<a:alertn:1420453764883681443> Unauthorized Join Attempt")
                   .setDescription(
-                    `🚷 User <@${m.id}> (**${m.user.username}**) tried to join **${channel.name}** without permission.`
+                    `<:danger:1420454060108288210> User <@${m.id}> (**${m.user.username}**) tried to join **${channel.name}** without permission.`
                   )
                   .setTimestamp();
 
